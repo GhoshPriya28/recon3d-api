@@ -1,0 +1,76 @@
+<%- include ("header") %>
+  <%- include ("sidebar") %>
+
+
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+    <script src="/javascripts/stislas.js"></script>
+    <script src="/javascripts/scriptsdata.js"></script>
+
+    <div class="main-content">
+      <section class="section">
+        <div class="section-header">
+          <h1>Notification History</h1>
+
+          
+        </div>
+
+        <body>
+          <div class="section-body">
+            <div class="row mt-4">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="clearfix mb-3"></div>
+                    <div class="container">
+                      <table id="example" class="table table-striped" width="100%">
+                        <div class="table-responsive">
+                          <thead>
+                            <tr>
+                              
+                              <th>Name</th>
+                              <th>Status</th>
+                             </tr>
+                          </thead>
+                          <tfoot>
+                            <tr>
+                            </tr>
+                          </tfoot>
+                          <tbody>
+                          <% for(var i=0; i < data.length; i++) {  %>
+                            <tr>
+                              <td><%=data[i].name %></td>
+                              <td><%=data[i].status %> %></td>
+                              
+                            </tr>
+                             
+                          <% } %>
+                           
+                          </tbody>
+
+                        </div>
+
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <script>
+
+           
+          </script>
+        </body>
+
+      </section>
+      </body>
+      </section>
+    </div>
+
+
+    <%- include ("footer") %>
+      <style>
+        table.dataTable {
+          border-bottom: 1px solid #ddd !important;
+        }
+      </style>

@@ -1,0 +1,196 @@
+<%- include ("header") %>
+  <%- include ("sidebar") %>
+
+
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+    <script src="/javascripts/stislas.js"></script>
+    <script src="/javascripts/scriptsdata.js"></script>
+
+    <div class="main-content">
+      <section class="section">
+        <div class="section-header">
+          <h1>User List</h1>
+
+          <div class="section-header-breadcrumb">
+            <div class="breadcrumb-item active"><a href="/web/admin/dashboard">Dashboard</a></div>
+            <div class="breadcrumb-item">User List</div>
+
+          </div>
+        </div>
+
+        <body>
+          <div class="section-body">
+            <div class="row mt-4">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="clearfix mb-9"></div>
+                    <div class="container">
+                    <div class="alert alert-success alert-dismissible" id="success" style="display:none" role="alert"></div>
+                          <div class="alert alert-danger alert-dismissible" id="error" style="display:none" role="alert"></div>  
+                      <form method="post" id="sendNotification" action="/web/admin/send-notification"
+                        class="needs-validation" novalidate="">
+                        <div class="form-group">
+                          <div class="col">
+                            <input type="text" class="form-control" required name="title" id="title"
+                              placeholder="Title: Subject Line">
+                          </div><br>
+                          <div class="col">
+                            <label for="comment">Description:</label>
+                          <textarea class="form-control" rows="5" required name="comment" id="comment"></textarea>
+                          </div>
+                        </div><br>
+                        <div class="form-group col-md-6 col-6">
+                          <button type="submit" id="formid" class="btn btn-primary">Send Notification
+                          </button>
+                        </div>
+                        <table id="example" class="table table-striped" width="100%">
+                          <div class="table-responsive">
+                            <thead>
+                              <tr>
+                                <th><input id="checkall" type="checkbox" name="check1" /></th>
+                                <th>First_Name</th>
+                                <th>Last_Name</th>
+                                <th>Email</th>
+                                <th>Last Send</th>
+                              </tr>
+                            </thead>
+                            <tfoot>
+                              <tr>
+                              </tr>
+                            </tfoot>
+                            <tbody>
+                            </tbody>
+                          </div>
+                        </table>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <script>
+            $(document).ready(function () {
+              $('#example').DataTable({
+                "paging": true,
+                "pageLength": 10,
+                //"processing": true,
+                "serverSide": true,
+                "ajax": { url: "/web/admin/userlistdata_notification", type: 'POST' },
+                "columns": [
+                  { "data": "id" },
+                  { "data": "first_name" },
+                  { "data": "last_name" },
+                  { "data": "email" },
+                  { "data": "orgnization_name" },
+                ]
+              });
+            });
+
+            $("#checkall").click(function (event) {
+              event.stopPropagation()
+              $('input:checkbox').not(this).prop('checked', this.checked);
+            });
+
+            $("#sendNotification").submit(function (e) {
+              var boxes = $('input[name=user_ids]:checked');
+              //alert(boxes.length);
+              if ($("#comment").val() == "") {
+                Swal.fire({
+                  icon: 'error',
+                  title: `Sorry can't send notification`,
+                  text: 'Please enter description !!',
+                })
+                return false;
+              }
+              if ($("#title").val() == "") {
+                Swal.fire({
+                  icon: 'error',
+                  title: `Sorry can't send notification`,
+                  text: 'Please enter title !!',
+                })
+                return false;
+              }
+              if (($("#title").val() == "") || ($("#comment").val() == "")) {
+                Swal.fire({
+                  icon: 'error',
+                  title: `Sorry can't send notification`,
+                  text: 'Please fill the required fields !!',
+                })
+                return false;
+              }
+
+              var boxes = $('input[name=user_ids]:checked');
+              
+              if (boxes.length == 0) {
+                Swal.fire({
+                  icon: 'error',
+                  title: `Sorry can't send notification`,
+                  text: 'Please select checkbox!!',
+                })
+                return false;
+              }
+
+
+              e.preventDefault();
+              Swal.fire({
+                title: 'Do you want to send notification?',
+                showDenyButton: false,
+                showCancelButton: true,
+                confirmButtonText: 'Send',
+                denyButtonText: `Don't send`,
+              }).then((result) => {
+              if (result.isConfirmed) {
+                  var form = $(this);
+                  var url = form.attr('action');
+                  $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: form.serialize(),
+                    success: function (data) {
+
+                      Swal.fire({
+                        icon: 'success',
+                        title: '',
+                        text: 'Notificatin Subbmitted',
+                      });
+                      setTimeout(function () {
+                        window.location = "/web/admin/notificatiomaster";
+                    }, 5000);
+                      // console.log("data", data)
+
+                      // var obj = jQuery.parseJSON(data);
+                      // if (obj.status == 'error') {
+                      //   $("#error").show();
+                      //   $("#error").html(obj.message);
+                      //   $("#error").fadeTo(2000, 500).slideUp(500, function () {
+                      //     $("#error").slideUp(500);
+                      //   });
+                      // }
+                      // else if (obj.status == 'success') {
+                      //   $("#success").show();
+                      //   $("#success").html(obj.message);
+                      //   $("#success").fadeTo(2000, 500).slideUp(500, function () {
+                      //     $("#success").slideUp(500);
+                      //   });
+                      // }
+                    }
+                  });
+                } else if (result.isDenied) {
+                  Swal.fire('Changes are not saved', '', 'info')
+                }
+              });
+            });
+          </script>
+        </body>
+      </section>
+      </body>
+      </section>
+    </div>
+    <%- include ("footer") %>
+      <style>
+        table.dataTable {
+          border-bottom: 1px solid #ddd !important;
+        }
+      </style>

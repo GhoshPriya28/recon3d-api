@@ -1,0 +1,117 @@
+<%- include ("header") %>
+  <%- include ("sidebar") %>
+
+    <head>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    </head>
+
+    <div class="main-content">
+      <section class="section">
+        <div class="section-header">
+          <h1>Profile</h1>
+          <div class="section-header-breadcrumb">
+            <div class="breadcrumb-item active"><a href="/web/admin/dashboard">Dashboard</a></div>
+            <div class="breadcrumb-item">Profile</div>
+          </div>
+        </div>
+        <div class="col-12 col-md-12 col-lg-12">
+          <div class="card profile-widget">
+            <div class="profile-widget-header">
+              <img alt="image" src="/images/avatar/avatar-1.png" class="rounded-circle profile-widget-picture">
+              <div class="profile-widget-items">
+                <div class="profile-widget-item">
+                  <div class="profile-widget-item-label">Posts</div>
+                  <div class="profile-widget-item-value">187</div>
+                </div>
+                <div class="profile-widget-item">
+                  <div class="profile-widget-item-label">Followers</div>
+                  <div class="profile-widget-item-value">6,8K</div>
+                </div>
+                <div class="profile-widget-item">
+                  <div class="profile-widget-item-label">Following</div>
+                  <div class="profile-widget-item-value">2,1K</div>
+                </div>
+              </div>
+            </div>
+            <div class="profile-widget-description">
+              <div class="card">
+                <form method="post" id="profileform" action="/web/admin/updateprofile" class="needs-validation"
+                  novalidate="">
+
+
+                  <div class="card-body">
+                    <!-- <div class="profile-widget-header">
+                      <img alt="image" src="/images/avatar/avatar-1.png" class="rounded-circle profile-widget-picture"
+                        style="height: 52px;margin: 10px 10px 10px 0px;">
+                    </div> -->
+                    <div class="row">
+                      <div class="form-group col-md-6 col-6">
+                        <label>First Name</label>
+                        <input type="text" class="form-control" value="Deepali" required="" readonly>
+
+                      </div>
+                      <div class="form-group col-md-6 col-6">
+                        <label>Last Name</label>
+                        <input type="text" class="form-control" value="Verma" required="" readonly>
+
+                      </div>
+                    </div>
+
+
+                    <div class="row">
+                      <div class="form-group col-md-6 col-6">
+                        <label>Email</label>
+                        <input type="text" class="form-control" value="deep@gmail.com" required="" readonly>
+
+                      </div>
+                      <div class="form-group col-md-6 col-6">
+                        <label>Company Name</label>
+                        <input type="text" class="form-control" value="xyz" readonly>
+                      </div>
+
+                    </div>
+
+                    <div class="row">
+                      <div class="form-group col-md-6 col-6">
+                        <label>Status</label>
+                        <select id="status" name="status" class="form-control">
+                          <option value="0">Pending</option>
+                          <option value="1">Active</option>
+                          <option value="2">Deactive</option>
+
+                        </select>
+                      </div>
+
+                    </div>
+
+
+
+
+                    <div class="alert alert-success alert-dismissible" id="success" style="display:none" role="alert">
+                    </div>
+                    <div class="alert alert-danger alert-dismissible" id="error" style="display:none" role="alert">
+                    </div>
+                  </div>
+
+
+                  <div class="card-footer text-right">
+                    <button type="button" onclick="history.go(-1)" class="btn btn-primary">Back</button>
+                    <button type="submit" id="login" class="btn btn-primary">Upadte </button>
+                  </div>
+              </div>
+
+          </div>
+        </div>
+    </div>
+    </section>
+    </div>
+    <script type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/sweetalert2@11.3.2/dist/sweetalert2.all.min.js"></script>
+
+    <body>
+
+    </body>
+
+
+    <%- include ("footer") %>

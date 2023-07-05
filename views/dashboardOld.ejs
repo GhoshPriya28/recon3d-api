@@ -1,0 +1,160 @@
+<%- include ("header") %>
+  <%- include ("sidebar") %>
+
+    <link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
+
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+    <script src="/javascripts/stislas.js"></script>
+    <script src="/javascripts/scriptsdata.js"></script>
+
+    <div class="main-content">
+      <section class="section">
+        <div class="section-header">
+          <h1>Collect List</h1>
+
+          <div class="section-header-breadcrumb">
+            <div class="breadcrumb-item active"><a href="/web/admin/dashboard">Dashboard</a></div>
+            <div class="breadcrumb-item">Collect List</div>
+          </div>
+        </div>
+
+         <body>
+          <div class="section-body">
+            <div class="row mt-4">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="clearfix mb-3"></div>
+                    <div class="container">
+                      <div class="input-daterange">
+                        
+                        <div class="form-group col-md-3 col-3">
+                          <label> To Date</label>
+                          <input type="text" class="form-control" name="start_date" id="start_date">
+
+                        </div>
+                        <div class="form-group col-md-3 col-3" style="
+                        margin: -95px 22px 0px 260px;
+                    ">
+                          <label>From Date</label>
+                          <input type="text" class="form-control" name="end_date" id="end_date">
+
+                        </div>
+                        <div class="form-group col-md-3 col-3">
+                          <button type="button" name="search" id="search" value="Search" class="btn btn-primary" style="
+                            position: absolute;
+                            left: 489px;
+                            margin: 10px;
+                            top: -51px;
+                        ">Search</button>
+                        </div>
+                       </div>
+                      <table id="example" class="table table-striped"  width="100%">
+                        <div class="table-responsive">
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>Name</th>
+                              
+                              <th>Collect Name</th>
+                              <th>Collect Date</th>
+                              <th>Status</th>
+                              <th>Action</th>
+                              <!--<th>Assets</th>-->
+                             
+                            
+                            </tr>
+                          </thead>
+                          <tfoot>
+                            <tr>
+                            </tr>
+                          </tfoot>
+                          <tbody>
+
+                          </tbody>
+
+                        </div>
+
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <script>
+
+            $(document).ready(function () {
+              $('.input-daterange').datepicker({
+                todayBtn: 'linked',
+                format: "yyyy-mm-dd",
+                autoclose: true
+              });
+
+              fetch_data('no');
+              function fetch_data(is_date_search, start_date = '', end_date = '') {
+                $('#example').DataTable({
+                  "paging": true,
+                  "aaSorting": [[ 0, "desc" ]],
+                  "pageLength": 10,
+                  "processing": true,
+                  "serverSide": true,
+                  "ajax": {
+                    url: "/web/admin/homedata", type: 'POST', data: {
+                      is_date_search: is_date_search, start_date: start_date, end_date: end_date
+                    }
+                  },
+                  "columns": [
+                    { "data": "id" },
+                    { "data": "name" },
+                   
+                    { "data": "collect_name" },
+                    { "data": "createdAt" },
+                    { "data": "status" },
+                    { "data": "assets" }
+
+
+                  ]
+                });
+              }
+              $('#search').click(function () {
+                ($('#startDate').val());
+                var start_date =$('#start_date').val();
+                var end_date =$('#end_date').val();
+                var start_date1 =new Date($('#start_date').val());
+                var end_date1 =new Date($('#end_date').val());
+                
+                if (start_date != '' && end_date != '') {
+                  $('#example').DataTable().destroy();
+                  fetch_data('yes', start_date, end_date);
+
+                }
+                else {
+                  alert("Both Date is Required");
+                }
+                if (start_date1 >=end_date1) {
+                  alert(start);
+                  $('#example').DataTable().destroy();
+                  fetch_data('yes', start_date1, end_date1);
+
+                }
+                
+              });
+            });
+
+            
+          </script>
+        </body>
+      </section>
+      </body>
+      </section>
+    </div>
+
+    <%- include ("footer") %>
+      <style>
+        table.dataTable {
+          border-bottom: 1px solid #ddd !important;
+        }
+      </style>

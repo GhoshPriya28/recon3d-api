@@ -1,0 +1,378 @@
+<%- include ("header") %>
+  <%- include ("sidebar") %>
+  
+    <head>
+      <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+      <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+      <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    </head>
+
+    <div class="main-content">
+      <section class="section">
+        <div class="section-header">
+          <h1>Collect Details</h1>
+          <div class="section-header-breadcrumb">
+            <div class="breadcrumb-item active"><a href="/web/admin/dashboard">Dashboard</a></div>
+            <div class="breadcrumb-item">Collect Details</div>
+          </div>
+        </div>
+        <div class="section-body">
+          <div class="invoice">
+            <div class="invoice-print">
+              <div class="row">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-12 ">
+                      <div class="panel panel-default">
+                        <div class="panel-heading">
+                          <h4>Collect Details</h4>
+                        </div>
+
+                        <div class="panel-body">
+                          <% for(var i=0; i < data.length; i++) { console.log(data); %>
+                            <input type="hidden" id="email" name="email" value="<%= data[i].initiate_id%>" />
+                            <input type="hidden" id="initiateid" name="initiateid" value="<%= data[i].initiate_id%>" />
+                            <input type="hidden" id="collect_status"  value="<%= collect_status %>" />
+                            <input type="hidden" id="asset_url"  value="<%= data[i].s3_file_url %>" />
+                            <input type="hidden" id="object_url"  value="<%= data[i].s3_3d_url %>" />
+                            <div class="box box-info">
+                              <div class="box-body">
+                                <div class="clearfix"></div>
+                                <hr style="margin:5px 0 5px 0;">
+
+
+                                <div class="col-sm-5 col-xs-6 tital " style="color: black;">Collect Id:</div>
+                                <div class="col-sm-7 col-xs-6 ">
+                                  <%= data[i].ep_collect_id %>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="bot-border"></div>
+                                <div class="bot-border"></div>
+
+                                <div class="col-sm-5 col-xs-6 tital " style="color: black;">Initiate Id:</div>
+                                <div class="col-sm-7">
+                                  <%= data[i].initiate_id%>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="bot-border"></div>
+                                <div class="bot-border"></div>
+                                <div class="col-sm-5 col-xs-6 tital " style="color: black;">Collect Name:</div>
+                                <div class="col-sm-7">
+                                  <%= data[i].collect_name%>
+                                </div>
+                                
+                                <div class="clearfix"></div>
+                                <div class="bot-border"></div>
+                                <div class="clearfix"></div>
+                                <div class="bot-border"></div>
+                                
+                                  
+                                  <div class="col-sm-5 col-xs-6 tital " style="color: black;">3D Asset:</div>
+                                
+                                  <div class="col-sm-7">
+                                    <div id="assetsU">
+
+                                      <img alt="image" src="/images/loading.gif" height="100px;" id="asLoader" class="rounded-circle mr-1">
+                                      <a href="" id="assetsUrl" class="btn btn-dark" download style="display:none">download</a>
+                                    </div>
+                                    
+                                    <!--<button type="submit" id="assets" class="btn btn-primary">Download</button>-->
+                                    
+                                  </div>
+                                  <div class="clearfix"></div>
+                                  <div class="bot-border"></div>
+                                  <div class="clearfix"></div>
+                                  <div class="bot-border"></div>
+                                  <div class="col-sm-5 col-xs-6 tital " style="color: black;">3D Object:</div>
+                                
+                                  <div class="col-sm-7">
+                                    <%if (collect_status=='Completed' && threeDurl!='') {
+                                      
+                                      %>
+                                     <!-- <img alt="image" src="/images/loading.gif" height="100px;" id="obLoader" class="rounded-circle mr-1">-->
+                                      <a href="<%= threeDurl[0] %>" id="objectsUrl" class="btn btn-dark" >Download(<%= threeDurl[0].split('/').pop() %>)</a>
+                                      <a href="<%= threeDurl[1] %>" id="objectsUrl" class="btn btn-dark" >Download(<%= threeDurl[1].split('/').pop() %>)</a>
+                                    <% } else { %>
+                                      <%= collect_status %>
+                                    <% } %>
+                                    
+                                  </div>
+                                  <div class="clearfix"></div>
+
+                                  <div class="bot-border"></div>
+                                  <div class="clearfix"></div>
+                                  <div class="bot-border"></div>
+
+
+                                  
+                                  
+                              </div>
+                              <div class="card-footer text-right">
+                                <button type="submit" id="deletecoll" class="btn btn-primary">Delete</button>
+                                
+                                <%if (collect_status!='Completed') { %>
+                                  <button type="submit" id="login" class="btn btn-primary">Reupload</button>
+                                  <% } %>
+                                    <%if (data[i].internal_status==2){%>
+                                      <button type="submit" id="reminder" class="btn btn-primary">Reminder</button>
+                                      <%}%>
+                                      <button type="button" onclick="history.go(-1)" class="btn btn-primary">Back</button>
+                              </div>
+                            </div>
+                            <% }%>
+                        </div>
+                      </div>
+                    </div>
+                    <script>
+                      $(function () {
+                        $('#profile-image1').on('click', function () {
+                          $('#profile-image-upload').click();
+                        });
+                      }); 
+                     
+                      
+
+                    </script>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    </section>
+    </div>
+    <script type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/sweetalert2@11.3.2/dist/sweetalert2.all.min.js"></script>
+    <script type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/sweetalert2@11.3.2/dist/sweetalert2.all.min.js"></script>
+
+    <body>
+      <script type="text/javascript">
+        $(document).ready(function () {
+          $("#login").click(function () {
+            Swal.fire({
+              title: 'Do you want to send  the email ?',
+              showDenyButton: false,
+              showCancelButton: true,
+              confirmButtonText: 'Yes',
+              denyButtonText: `Don't save`,
+            }).then((result) => {
+
+              /* Read more about isConfirmed, isDenied below */
+              if (result.isConfirmed) {
+
+                var email = $("#email").val();
+                var url = "/web/admin/sendemail/" + email;
+                $.get(url)
+                  .done(function (data) {
+                    if (data.message) {
+                      Swal.fire({
+                        icon: 'success',
+                        title: '',
+                        text: data.message,
+
+                      });
+
+
+                    }
+                    else {
+                      Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: data.message,
+                      });
+                    }
+
+                  });
+
+                //Swal.fire('Saved!', '', 'success')
+              } else if (result.isDenied) {
+                Swal.fire('Changes are not saved', '', 'info')
+              }
+
+            });
+
+          });
+          $("#reminder").click(function () {
+            Swal.fire({
+              title: 'Do you want to send  the email ?',
+              showDenyButton: false,
+              showCancelButton: true,
+              confirmButtonText: 'Yes',
+              denyButtonText: `Don't save`,
+            }).then((result) => {
+
+              /* Read more about isConfirmed, isDenied below */
+              if (result.isConfirmed) {
+
+                var email = $("#email").val();
+                var url = "/web/admin/reminderemail/" + email;
+                $.get(url)
+                  .done(function (data) {
+                    if (data.message) {
+                      Swal.fire({
+                        icon: 'success',
+                        title: '',
+                        text: data.message,
+
+                      });
+
+
+                    }
+                    else {
+                      Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: data.message,
+                      });
+                    }
+
+                  });
+
+                //Swal.fire('Saved!', '', 'success')
+              } else if (result.isDenied) {
+                Swal.fire('Changes are not saved', '', 'info')
+              }
+
+            });
+
+          });
+
+         
+            
+
+                
+
+                //Swal.fire('Saved!', '', 'success')
+              
+         
+
+
+          $("#deletecoll").click(function () {
+            console.log('hello');
+            Swal.fire({
+              title: 'Do you want to delete the collects?',
+              showDenyButton: false,
+              showCancelButton: true,
+              confirmButtonText: 'Yes',
+              denyButtonText: `Don't save`,
+            }).then((result) => {
+
+              /* Read more about isConfirmed, isDenied below */
+              if (result.isConfirmed) {
+                var initiateid = $("#initiateid").val();
+                var url = "/web/admin/deleteObject/" + initiateid;
+
+                $.post(url)
+                  .done(function (data) {
+                    if (data.message) {
+                      Swal.fire({
+                        icon: 'success',
+                        title: '',
+                        text: data.message,
+
+                      });
+                      setTimeout(function () {
+                        window.location = "/web/admin/dashboard";
+                      }, 3000);
+                    }
+                    else {
+                      Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: data.message,
+                      });
+                    }
+
+                  });
+
+                //Swal.fire('Saved!', '', 'success')
+              } else if (result.isDenied) {
+                Swal.fire('Changes are not saved', '', 'info')
+              }
+
+            });
+
+          });
+        
+              //setTimeout(loadajax,10000);
+                if($("#asset_url").val())
+                {
+                  var initiateid = $("#initiateid").val();
+                  var url = "/api/v1/downloadAssets?userId=106&initiateId="+initiateid;
+                  $.ajax({ url: url,
+                      context: document.body,
+                      success: function(response){
+                        if(response.code==200)
+                      {
+                        var path=response.data.path;
+                        //$("#assetsU").html(path);
+                        $("#assetsUrl").attr("href", path);
+                        $("#assetsUrl").show();
+                        $("#asLoader").hide();
+                      }
+                      }
+                  });
+                }
+               /*
+                if($("#asset_url").val()!='' && $("#collect_status").val()=='Completed')
+                {
+                var initiateid = $("#initiateid").val();
+                var url = "/api/v1/downloadObjects?userId=106&initiateId="+initiateid;
+                $.ajax({ url: url,
+                    context: document.body,
+                    success: function(response){
+                      if(response.code==200)
+                    {
+                      var path=response.data.path;
+                      //$("#assetsU").html(path);
+                      $("#objectsUrl").attr("href", path);
+                      $("#objectsUrl").show();
+                      $("#obLoader").hide();
+                    }
+                    }
+                });
+                }*/
+                
+                
+          
+        });
+
+        
+        
+
+
+
+
+      </script>
+    </body>
+    <style>
+      input.hidden {
+        position: absolute;
+        left: -9999px;
+      }
+
+      #profile-image1 {
+        cursor: pointer;
+
+        width: 100px;
+        height: 100px;
+        border: 2px solid #03b1ce;
+      }
+
+      .tital {
+        font-size: 16px;
+        font-weight: 500;
+      }
+
+      .bot-border {
+        border-bottom: 1px #f8f8f8 solid;
+        margin: 5px 0 5px 0
+      }
+    </style>
+    <%- include ("footer") %>

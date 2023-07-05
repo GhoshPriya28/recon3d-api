@@ -1,0 +1,196 @@
+<%- include ("header") %>
+  <%- include ("sidebar") %>
+
+
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+    <script src="/javascripts/stislas.js"></script>
+    <script src="/javascripts/scriptsdata.js"></script>
+
+    <div class="main-content">
+      <section class="section">
+        <div class="section-header">
+          <h1>User List</h1>
+
+          <div class="section-header-breadcrumb">
+            <div class="breadcrumb-item active"><a href="/web/admin/dashboard">Dashboard</a></div>
+            <div class="breadcrumb-item">User List</div>
+
+          </div>
+        </div>
+
+        <body>
+          <div class="section-body">
+            <div class="row mt-4">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="clearfix mb-9"></div>
+                    <!--<div class="clearfix mb-3"><a href="/web/admin/download_excel" class="btn btn-primary">Download</a></div>-->
+                    <div class="container">
+                      <div class="row">
+
+                        <div class="form-group col-md-3 col-3 ">
+                          <label>Is Subscribe</label>
+                          <select class="input-sm form-control" id="user_type">
+                            <option value="" selected>Select</option>
+
+                            <option value="1">Subscribed</option>
+                            <option value="0">Free</option>
+                            <option value="2">Trial</option>
+                          </select>
+                        </div>
+                        <div class="form-group col-md-3 col-3 ">
+                          <label>Duration</label>
+                          <select class="input-sm form-control" id="duration">
+                            <option value="" selected>Select</option>
+                            <option value="0">Monthly</option>
+                            <option value="1">Yearly</option>
+
+                          </select>
+                        </div>
+                        <div class="form-group col-sm-2 col-2">
+                          <button type="button" name="search" id="search" value="Search" class="btn btn-md btn-primary "
+                            style="margin-top: 30px;">Search</button>
+                        </div>
+                        <div class="form-group col-md-3 col-3 ">
+                          <button type="button" id="download" class="btn btn-warning"
+                            style="margin-top: 30px;">Download</button>
+                          <!--<a href="/web/admin/download_excel" class="btn btn-warning" style="margin-top: 30px;">Download all users</a>-->
+                        </div>
+                      </div>
+                      <table id="example" class="table table-striped" width="100%">
+                        <div class="table-responsive">
+                          <thead>
+                            <tr>
+                              <th>User_id</th>
+                              <th>First_Name</th>
+                              <th>Last_Name</th>
+                              <th>Email</th>
+                              <th>Subscribed</th>
+                              <th>Expire</th>
+                              <th>Total Uploads</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tfoot>
+                            <tr>
+                            </tr>
+                          </tfoot>
+                          <tbody>
+
+                          </tbody>
+
+                        </div>
+
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <script>
+
+            $(document).ready(function () {
+
+              $('#download').click(function () {
+                var user_type = $('#user_type').val();
+                var duration = $('#duration').val();
+                window.location = '/web/admin/download_excel?user_type=' + user_type + '&duration=' + duration;
+              });
+              $("#user_type").change(function () {
+                var v = $(this).val();
+
+                $('#duration').prop('disabled', false);
+                if (v == 0 || v == 2) {
+                  $('#duration').prop('disabled', true);
+                }
+                else {
+                  $('#duration').prop('disabled', false);
+                }
+              });
+
+
+              fetch_data('no');
+              function fetch_data(user_type = '', duration = '') {
+                $('#example').DataTable({
+                  "paging": true,
+                  "pageLength": 10,
+                  "processing": true,
+                  "serverSide": true,
+
+                  "ajax": { url: "/web/admin/userlistdata", type: 'POST', data: { user_type: user_type, duration: duration } },
+                  "columns": [
+                    { "data": "id" },
+                    { "data": "first_name" },
+                    { "data": "last_name" },
+                    { "data": "email" },
+                    { "data": "is_subscribe" },
+                    { "data": "exp_date" },
+                    { "data": "total_upload" },
+                    { "data": "view" },
+                  ]
+                });
+              }
+
+
+              $('#search').click(function () {
+                var user_type = $('#user_type').val();
+                var duration = $('#duration').val();
+
+                if (user_type != '') {
+                  $('#example').DataTable().destroy();
+                  fetch_data(user_type, duration);
+
+                }
+
+
+              });
+
+
+            });
+
+            $(document).ready(function () {
+              $("#example").dataTable({
+                aaSorting: [[2, 'desc']],
+                bPaginate: false,
+                bFilter: false,
+                bInfo: false,
+                bSortable: true,
+                bRetrieve: true,
+                dom: 'Bfrtip',
+                buttons: [
+                  'copy', 'csv', 'excel', 'pdf', 'print'
+                ],
+                aoColumnDefs: [
+                  { "aTargets": [0], "bSortable": true },
+                  { "aTargets": [1], "bSortable": true },
+                  { "aTargets": [2], "bSortable": true },
+                  { "aTargets": [3], "bSortable": false }
+                ]
+              });
+
+
+
+
+            });
+
+
+
+
+
+          </script>
+        </body>
+
+      </section>
+      </body>
+      </section>
+    </div>
+
+
+    <%- include ("footer") %>
+      <style>
+        table.dataTable {
+          border-bottom: 1px solid #ddd !important;
+        }
+      </style>

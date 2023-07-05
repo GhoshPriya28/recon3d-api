@@ -1,0 +1,90 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+<!-- Template CSS 
+ <link rel="stylesheet" href="/stylesheets/components.css">-->
+<link rel="stylesheet" href="/stylesheets/style.css">
+<div class="main-sidebar">
+      <aside id="sidebar-wrapper">
+        <div class="sidebar-brand">
+          3D Module
+          <!-- <img  src="/images/avatar/ic_I3Logo.png" style="width:90px;height:auto;"> -->
+        </div>
+        <div class="sidebar-brand sidebar-brand-sm">
+          <a href="index.html">St</a>
+        </div>
+        <ul class="sidebar-menu">
+          <li class="nav-item dropdown " id="dashboard" >
+            <a href="/web/admin/dashboard"  class="nav-item dropdown"><i class="fas fa-fire"></i><span>Collections</span></a>
+            </li>
+         
+          <li class="nav-item dropdown " id="Userlist">
+            <a href="/web/admin/Userlist" class=""><i class="fas fa-user"></i><span>Users List </span></a>
+          </li>
+          
+          <% if(posts=='Admin Tycho') { %>
+          <li class="nav-item dropdown " id="UserlistNotification">
+            <a href="/web/admin/UserlistNotification" class=""><i class="fas fa-user"></i><span>
+            Notification Users </span></a>
+          </li>
+          <li class="nav-item dropdown " id="UserlistNotification">
+            <a href="/web/admin/notificatiomaster" class=""><i class="fas fa-user"></i><span> Notification Master</span></a>
+          </li>
+          <% } %>
+          <li class="nav-item dropdown " id="UserlistNotification">
+            <a href="/web/admin/initiate" class=""><i class="fas fa-user"></i><span>Initiated Task</span></a>
+          </li>
+          <!--
+          <li class="nav-item dropdown " id="UserlistNotification">
+            <a href="/web/admin/processing" class=""><i class="fas fa-user"></i><span>Processing Task</span></a>
+          </li> -->
+          <!--
+          <li class="nav-item dropdown " id="UserlistNotification">
+            <a href="/web/admin/UserlistNotification" class=""><i class="fas fa-user"></i><span>Users List
+            Notification</span></a>
+          </li>
+          <li class="nav-item dropdown " id="UserlistNotification">
+            <a href="/web/admin/notificatiomaster" class=""><i class="fas fa-user"></i><span> Notification Master</span></a>
+          </li>   -->
+           <li class="nav-item dropdown " >
+            <a href="/web/admin/user-status" class=""><i class="fas fa-user"></i><span>Data Analytics</span></a>
+          </li>
+          <!--<li class="nav-item dropdown " >
+            <a href="/web/admin/settingList" class=""><i class="fas fa-user"></i><span>Job Priority</span></a>
+          </li>-->
+          <li class="nav-item dropdown " >
+            <a href="/web/admin/priorityProcess" class=""><i class="fas fa-user"></i><span>Job Priority Setting</span></a>
+          </li>
+          <li class="nav-item dropdown " >
+            <a href="/web/admin/db-list" class=""><i class="fas fa-user"></i><span>Database Backup List</span></a>
+          </li>
+             
+
+
+         
+          
+      </aside>
+    </div>
+
+    <body>
+      <script>
+        jQuery(document).ready(function(){
+         var path=window.location.pathname.split("/").pop();
+         jQuery("#sidebar li").removeClass("active");
+         if(path=="dashboard"){
+          jQuery("#"+path).addClass("active");
+         }
+         if(path=="Userlist"){
+          jQuery("#"+path).addClass("active");
+         }
+         if(path=="Consumerlist" || path=="Retailerlist"){
+          jQuery("#"+path).addClass("active");
+          jQuery("#userlist").show();
+          jQuery("#userlistMain").addClass("active");
+    
+          
+         }
+    
+    });
+        </script>
+    </body>

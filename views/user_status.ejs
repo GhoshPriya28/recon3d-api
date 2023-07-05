@@ -1,0 +1,420 @@
+<%- include ("header") %>
+    <%- include ("sidebar") %>
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" />
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
+        <link rel="stylesheet" href="/stylesheets/styles.css">
+        <script src="/javascripts/stislas.js"></script>
+        <script src="/javascripts/scriptsdata.js"></script>
+        <style type="text/css">/* Chart.js */
+            @-webkit-keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}@keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}.chartjs-render-monitor{-webkit-animation:chartjs-render-animation 0.001s;animation:chartjs-render-animation 0.001s;}</style>
+        <div class="main-content">
+            <section class="section">
+                <div class="section-header">
+                    <h1>Status Count</h1>
+                    <div class="section-header-breadcrumb">
+                        <div class="breadcrumb-item active"><a href="/web/admin/dashboard">Dashboard</a></div>
+                        <div class="breadcrumb-item">Status Count</div>
+                    </div>
+                </div>
+
+                <body>
+                    <div class="row">
+                        <div class="col-12 col-md-6 col-lg-6">
+                            <div class="card">
+                              <div class="card-header">
+                                <h4>Job  Status</h4>
+                                <div class="card-header-action dropdown">
+                                    <a href="#" data-toggle="dropdown" class="btn btn-danger dropdown-toggle" aria-expanded="false" style="text-transform: uppercase;"><%= duration%></a>
+                                    <ul class="dropdown-menu dropdown-menu-sm dropdown-menu-right" x-placement="bottom-end" style="position: absolute; transform: translate3d(75px, 31px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                      <li class="dropdown-title">Select Period</li>
+                                      
+                                      <li><a href="?status=today" class="dropdown-item <%= todayT%> ">Today</a></li>
+                                      <li><a href="?status=week" class="dropdown-item <%= weekT%>">Week</a></li>
+                                      <li><a href="?status=month" class="dropdown-item <%= monthT%>">Month</a></li>
+                                      <li><a href="?status=year" class="dropdown-item <%= yearT%>">This Year</a></li>
+                                    </ul>
+                                  </div>
+                              </div>
+                              
+                              <div class="card-body">
+                                <canvas id="myChart4"></canvas>
+                              </div>
+                              
+                              
+                            </div>
+                          </div>
+                          <div class="col-12 col-md-6 col-lg-6">
+                            <div class="card">
+                              <div class="card-header">
+                                <h4>Job Mode Status</h4>
+                                <div class="card-header-action dropdown">
+                                    <a href="#" data-toggle="dropdown" class="btn btn-danger dropdown-toggle" aria-expanded="false" style="text-transform: uppercase;"><%= duration%></a>
+                                    <ul class="dropdown-menu dropdown-menu-sm dropdown-menu-right" x-placement="bottom-end" style="position: absolute; transform: translate3d(75px, 31px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                      <li class="dropdown-title">Select Period</li>
+                                      
+                                      <li><a href="?status=today" class="dropdown-item <%= todayT%> ">Today</a></li>
+                                      <li><a href="?status=week" class="dropdown-item <%= weekT%>">Week</a></li>
+                                      <li><a href="?status=month" class="dropdown-item <%= monthT%>">Month</a></li>
+                                      <li><a href="?status=year" class="dropdown-item <%= yearT%>">This Year</a></li>
+                                    </ul>
+                                  </div>
+                              </div>
+                              
+                              <div class="card-body">
+                                <canvas id="myChart5"></canvas>
+                              </div>
+                              
+                              
+                            </div>
+                          </div>
+                        </div>
+                    <div class="card">
+                        <div class="card-body pt-2 pb-2">
+                          <div id="myWeather"><strong>Total users - <%= JSON.stringify(totalUsers)%></strong></div>
+                        </div>
+                    </div>
+                    <div class="row gx-5">
+                        <div class="col-xxl-3 col-md-3 mb-5">
+                            <div class="card card-raised border-start border-primary border-4">
+                                
+                                <div class="card card-statistic-1">
+                                    <div class="card-icon bg-primary">
+                                      <i class="far fa-user"></i>
+                                    </div>
+                                    <div class="card-wrap">
+                                      <div class="card-header">
+                                        <h4>Daily</h4>
+                                      </div>
+                                      <div class="card-body">
+                                        <%= JSON.stringify(week)%>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xxl-3 col-md-3 mb-5">
+                            <div class="card card-raised border-start border-primary border-4">
+                                
+                                <div class="card card-statistic-1">
+                                    <div class="card-icon bg-primary">
+                                      <i class="far fa-user"></i>
+                                    </div>
+                                    <div class="card-wrap">
+                                      <div class="card-header">
+                                        <h4>Weekly</h4>
+                                      </div>
+                                      <div class="card-body">
+                                        <%= JSON.stringify(week)%>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xxl-3 col-md-3 mb-5">
+                            <div class="card card-raised border-start border-warning border-4">
+                                
+                                <div class="card card-statistic-1">
+                                    <div class="card-icon bg-primary">
+                                      <i class="far fa-user"></i>
+                                    </div>
+                                    <div class="card-wrap">
+                                      <div class="card-header">
+                                        <h4>Monthly</h4>
+                                      </div>
+                                      <div class="card-body">
+                                        <%= JSON.stringify(month)%>
+                                      </div>
+                                    </div>
+                                </div>
+                             
+                            </div>
+                        </div>
+                        <div class="col-xxl-3 col-md-3 mb-5">
+                            <div class="card card-raised border-start border-secondary border-4">
+                                <div class="card card-statistic-1">
+                                    <div class="card-icon bg-primary">
+                                      <i class="far fa-user"></i>
+                                    </div>
+                                    <div class="card-wrap">
+                                      <div class="card-header">
+                                        <h4>Yearly</h4>
+                                      </div>
+                                      <div class="card-body">
+                                        <%= JSON.stringify(year)%>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body pt-2 pb-2">
+                          <div id="myWeather"><strong>Total Uploads -  <%= JSON.stringify(totalUploads)%> </strong></div>
+                        </div>
+                    </div>
+
+                    <div class="row gx-5">
+                        <div class="col-xxl-3 col-md-3 mb-5">
+                            <div class="card card-raised border-start border-success border-4">
+                                
+                                <div class="card card-statistic-1">
+                                    <div class="card-icon bg-success">
+                                      <i class="far fa-file"></i>
+                                    </div>
+                                    <div class="card-wrap">
+                                      <div class="card-header">
+                                        <h4>Daily</h4>
+                                      </div>
+                                      <div class="card-body">
+                                        <%= JSON.stringify(fWeek)%>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       
+                        <div class="col-xxl-3 col-md-3 mb-5">
+                            <div class="card card-raised border-start border-success border-4">
+                                
+                                <div class="card card-statistic-1">
+                                    <div class="card-icon bg-success">
+                                      <i class="far fa-file"></i>
+                                    </div>
+                                    <div class="card-wrap">
+                                      <div class="card-header">
+                                        <h4>Weekly</h4>
+                                      </div>
+                                      <div class="card-body">
+                                        <%= JSON.stringify(fWeek)%>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xxl-3 col-md-3 mb-5">
+                            <div class="card card-raised border-start border-success border-4">
+                                
+                                <div class="card card-statistic-1">
+                                    <div class="card-icon bg-success">
+                                      <i class="far fa-file"></i>
+                                    </div>
+                                    <div class="card-wrap">
+                                      <div class="card-header">
+                                        <h4>Monthly</h4>
+                                      </div>
+                                      <div class="card-body">
+                                        <%= JSON.stringify(fMonth)%>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xxl-3 col-md-3 mb-5">
+                            <div class="card card-raised border-start border-success border-4">
+                                
+                                <div class="card card-statistic-1">
+                                    <div class="card-icon bg-success">
+                                      <i class="far fa-file"></i>
+                                    </div>
+                                    <div class="card-wrap">
+                                      <div class="card-header">
+                                        <h4>Yearly</h4>
+                                      </div>
+                                      <div class="card-body">
+                                        <%= JSON.stringify(fYear)%>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                     
+                    </div>
+                    <div class="card">
+                        <div class="card-body pt-2 pb-2">
+                          <div id="myWeather"><strong>Total Subscriber - <%= JSON.stringify(totalSubscribe)%></strong></div>
+                        </div>
+                    </div>
+                    <div class="row gx-5">
+                        <div class="col-xxl-3 col-md-3 mb-5">
+                            <div class="card card-raised border-start border-warning border-4">
+                                
+                                <div class="card card-statistic-1">
+                                    <div class="card-icon bg-warning">
+                                      <i class="fas fa-dollar-sign"></i>
+                                    </div>
+                                    <div class="card-wrap">
+                                      <div class="card-header">
+                                        <h4>Daily</h4>
+                                      </div>
+                                      <div class="card-body">
+                                        <%= JSON.stringify(subscribeW)%>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xxl-3 col-md-3 mb-5">
+                            <div class="card card-raised border-start border-warning border-4">
+                                
+                                <div class="card card-statistic-1">
+                                    <div class="card-icon bg-warning">
+                                      <i class="fas fa-dollar-sign"></i>
+                                    </div>
+                                    <div class="card-wrap">
+                                      <div class="card-header">
+                                        <h4>Weekly</h4>
+                                      </div>
+                                      <div class="card-body">
+                                        <%= JSON.stringify(subscribeW)%>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       
+
+                        <div class="col-xxl-3 col-md-3 mb-5">
+                            <div class="card card-raised border-start border-warning border-4">
+                                
+                                <div class="card card-statistic-1">
+                                    <div class="card-icon bg-warning">
+                                      <i class="fas fa-dollar-sign"></i>
+                                    </div>
+                                    <div class="card-wrap">
+                                      <div class="card-header">
+                                        <h4>Monthly</h4>
+                                      </div>
+                                      <div class="card-body">
+                                        <%= JSON.stringify(subscribeM)%>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xxl-3 col-md-3 mb-5">
+                            <div class="card card-raised border-start border-warning border-4">
+                                
+                                <div class="card card-statistic-1">
+                                    <div class="card-icon bg-warning">
+                                      <i class="fas fa-dollar-sign"></i>
+                                    </div>
+                                    <div class="card-wrap">
+                                      <div class="card-header">
+                                        <h4>Yearly</h4>
+                                      </div>
+                                      <div class="card-body">
+                                        <%= JSON.stringify(subscribeY)%>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                    
+                     
+     
+
+    
+              
+            
+       
+   
+        
+        </body>
+        </section>
+        </div>
+
+        <script src="/javascripts/page/chart.min.js"></script>
+       
+        <%- include ("footer") %>
+            <style>
+                table.dataTable {
+                    border-bottom: 1px solid #ddd !important;
+                }
+        </style>
+        <script>
+            //console.log(completeTotal);
+            var ctx = document.getElementById("myChart4").getContext('2d');
+            var myChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                datasets: [{
+                data: [
+                    "<%= initiatedTotal %>",
+                    "<%= pendingTotal %>",
+                    "<%= processingTotal %>",
+                    "<%= completeTotal %>",
+                    "<%= failedTotal %>",
+                   
+                ],
+                backgroundColor: [
+                    '#6777ef',
+                    '##3abaf4',
+                    '#ffa426',
+                    '#63ed7a',
+                    '#fc544b',
+                    
+                ],
+                label: 'Dataset 1'
+                }],
+                labels: [
+                'Initiated',
+                'Queued',
+                'Processing',
+                'Complete',
+                'Failed',
+                
+                ],
+            },
+            options: {
+                responsive: true,
+                legend: {
+                position: 'bottom',
+                },
+            }
+            });
+
+
+
+            var ctx = document.getElementById("myChart5").getContext('2d');
+            var myChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                datasets: [{
+                data: [
+                    "<%= eparlsTotal %>",
+                    "<%= photoGrametryTotal %>",
+                   
+                   
+                ],
+                backgroundColor: [
+                    '#6777ef',
+                    '#ffa426',
+
+                    
+                ],
+                label: 'Dataset 1'
+                }],
+                labels: [
+                'Standard mode',
+                'Photogrammetry mode',
+                
+                ],
+            },
+            options: {
+                responsive: true,
+                legend: {
+                position: 'bottom',
+                },
+            }
+            });
+        
+        </script>

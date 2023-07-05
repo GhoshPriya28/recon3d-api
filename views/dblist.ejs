@@ -1,0 +1,206 @@
+<%- include ("header") %>
+  <%- include ("sidebar") %>
+
+    <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
+
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+    <script src="/javascripts/stislas.js"></script>
+    <script src="/javascripts/scriptsdata.js"></script>
+
+    <div class="main-content">
+      <section class="section">
+        <div class="section-header">
+          <h1>Database Backup List</h1>
+
+          <div class="section-header-breadcrumb">
+            <div class="breadcrumb-item active"><a href="/web/admin/dashboard">Dashboard</a></div>
+            <div class="breadcrumb-item">Database Backup List</div>
+          </div>
+        </div>
+
+        <body>
+          <div class="section-body">
+            <div class="row mt-4">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="clearfix mb-3"></div>
+                    <div class="container">
+                      <div class="row input-daterange float-right">
+                        <div class="form-group">
+                          <button class="btn btn-md btn-primary" onclick="createDbBackup()">Create Backup</button>
+                        </div>
+
+                        <div id="buttons" style="display:none;margin-left: 10px;">
+                          <span class="form-group">
+                            <button class="btn btn-md btn-danger" onclick="deleteAll()">Delete All</button>
+                          </span>
+                        </div>
+                      </div>
+                      <table id="example" class="table table-striped" width="100%">
+                        <div class="table-responsive">
+                          <thead>
+                            <tr>
+                              <th><input id="checkall" type="checkbox" name="check1" onclick="checkAll()" /></th>
+                              <th>Id</th>
+                              <th>File Name</th>
+                              <th>File URL</th>
+                              <th>Date</th>
+                              <th>Download</th>
+                              <th>Delete</th>
+                            </tr>
+                          </thead>
+                          <tfoot>
+                            <tr>
+                            </tr>
+                          </tfoot>
+                          <tbody>
+                            <% for(var i=0; i<data.length; i++) {%>
+                              <tr>
+                                <td>
+                                  <input data-id='<%= data[i].id%>' type="checkbox" name="check"
+                                    onclick="showButtons(false)" />
+                                </td>
+                                <td>
+                                  <%= data[i].id%>
+                                </td>
+                                <td>
+                                  <%= data[i].file_name%>
+                                </td>
+                                <td>
+                                  <%= data[i].file_url%>
+                                </td>
+                                <td>
+                                  <%= data[i].createdAt%>
+                                </td>
+                                <td>
+                                  <button class="btn btn-md btn-outline-success"><a style="all:unset;"
+                                      href='/web/admin/download-db/<%= data[i].file_name%>'
+                                      download>Download</a></button>
+                                </td>
+                                <td>
+                                  <button class="btn btn-md btn-outline-danger"
+                                    onclick="deleteDbBackup('<%= data[i].file_name%>')">Delete</button>
+                                </td>
+                              </tr>
+                              <% } %>
+                          </tbody>
+                        </div>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <script>
+            //Show Buttons
+            function showButtons(close) {
+              if (close) {
+                document.getElementById('buttons').style.display = 'none'
+              } else {
+                document.getElementById('buttons').style.display = 'block'
+              }
+            }
+            //Check All
+            function checkAll() {
+              var data = document.getElementsByName('check')
+              var check = document.getElementById('checkall').checked   // check uncheck
+              if (check) {
+                for (i = 0; i < data.length; i++) {
+                  data[i].checked = true
+                }
+                showButtons(false)
+              } else {
+                for (i = 0; i < data.length; i++) {
+                  data[i].checked = false
+                }
+                showButtons(true)
+              }
+            }
+
+            // Create Backup
+            function createDbBackup() {
+              var xhttp = new XMLHttpRequest();
+              xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                  Swal.fire('Backup file created successfully', '', 'success').then((result) => {
+                    location.reload()
+                  })
+                }
+              };
+              xhttp.open("GET", "/web/admin/db-create", true);
+              xhttp.send();
+            }
+
+            // Delete
+            function deleteDbBackup(file_name) {
+              var xhttp = new XMLHttpRequest();
+              xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                  Swal.fire('File delete successfully', '', 'success').then((result) => {
+                    location.reload()
+                  })
+                } 
+              };
+              xhttp.open("GET", "/web/admin/db-delete/" + file_name, true);
+              xhttp.send();
+            }
+
+            //Delete All
+            function deleteAll() {
+              var data = document.getElementsByName('check')
+              var dataSelected = []
+              var lengthDeleted = 0
+              for (i = 0; i < data.length; i++) {
+                if (data[i].checked) {
+                  dataSelected.push(data[i])
+                }
+              }
+              if (dataSelected.length) {
+                for (i = 0; i < dataSelected.length; i++) {
+                  // e.target.parentElement.parentElement.childNodes[1].innerText;
+                  var file_name = dataSelected[i].parentElement.parentElement.childNodes[5].innerText
+                  var xhttp = new XMLHttpRequest();
+                  xhttp.onreadystatechange = function () {
+                    lengthDeleted = lengthDeleted + 1
+                  };
+                  xhttp.open("GET", "/web/admin/db-delete/" + file_name, true);
+                  xhttp.send();
+                }
+                Swal.fire('Deleted ' + lengthDeleted + ' Records', '', 'success').then((result) => {
+                  location.reload()
+                })
+              }
+              else {
+                Swal.fire('No fields selected', '', 'error')
+              }
+            }
+
+            $(document).ready(function () {
+              $('#example').DataTable({
+                searching: true,
+                "aLengthMenu": [[8, 16, 30, 50, 75, 100, -1], [8, 16, 30, 50, 75, 100, "All"]],
+                order: [[0, 'asc']]
+              });
+              $("#checkall").click(function (event) {
+                event.stopPropagation()
+                $('input:checkbox').not(this).prop('checked', this.checked);
+              });
+            });
+
+
+          </script>
+        </body>
+      </section>
+      </body>
+      </section>
+    </div>
+    <%- include ("footer") %>
+      <style>
+        table.dataTable {
+          border-bottom: 1px solid #ddd !important;
+        }
+      </style>

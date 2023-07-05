@@ -1,0 +1,81 @@
+<%- include ("header") %>
+  <%- include ("sidebar") %>
+
+
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+    <script src="/javascripts/stislas.js"></script>
+    <script src="/javascripts/scriptsdata.js"></script>
+
+    <div class="main-content">
+      <section class="section">
+        <div class="section-header">
+          <h1>Notification List</h1>
+
+          <div class="section-header-breadcrumb">
+            <div class="breadcrumb-item active"><a href="/dashboard">Dashboard</a></div>
+            <div class="breadcrumb-item">Notification List</div>
+
+          </div>
+        </div>
+
+        <body>
+          <div class="section-body">
+            <div class="row mt-4">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="clearfix mb-3"></div>
+                    <div class="container">
+                      <table id="example" class="table table-striped" width="100%">
+                        <div class="table-responsive">
+                          <thead>
+                            <tr>
+                              <th>id</th>
+                              <th>Title</th>
+                              <th>Notification</th>
+                             <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tfoot>
+                            <tr>
+                            </tr>
+                          </tfoot>
+                          <tbody>
+                            <% for(var i=0; i < data.length; i++) { %>
+
+                            <tr>
+                              <td><%- data[i].id %></td>
+                              <td><%- data[i].title %></td>
+                              <td><%- data[i].notification %></td>
+                              <td><a href="/web/admin/notificatidetail/<%- data[i].id %>" class="badge badge-info">View</a></td>
+                            </tr>
+                            <%}%>
+                          </tbody>
+
+                        </div>
+
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <script>
+
+           
+          </script>
+        </body>
+
+      </section>
+      </body>
+      </section>
+    </div>
+
+
+    <%- include ("footer") %>
+      <style>
+        table.dataTable {
+          border-bottom: 1px solid #ddd !important;
+        }
+      </style>

@@ -1,0 +1,231 @@
+<%- include ("header") %>
+  <%- include ("sidebar") %>
+
+    <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
+
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+    <script src="/javascripts/stislas.js"></script>
+    <script src="/javascripts/scriptsdata.js"></script>
+
+    <div class="main-content" style="padding-left: 255px; padding-right: 10px;">
+      <section class="section">
+        <div class="section-header">
+          <h1>Collect List</h1>
+          <div class="section-header-breadcrumb">
+            <div class="breadcrumb-item active"><a href="/web/admin/dashboard">Dashboard</a></div>
+            <div class="breadcrumb-item">Collect List</div>
+          </div>
+        </div>
+
+        <body>
+          <div class="section-body">
+            <div class="row mt-4">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="clearfix mb-3"></div>
+                    <div class="container">
+                      <div class="row input-daterange">
+                        <div class="form-group col-sm-3 col-3">
+                          <label> To Date</label>
+                          <input type="text" class="input-sm form-control"  readonly name="start_date" id="start_date" placeholder="Start Date">
+                        </div>
+                        <div class="form-group col-sm-3 col-3">
+                          <label>From Date</label>
+                          <input type="text" class="input-sm form-control" readonly name="end_date" id="end_date" placeholder="End Date">
+
+                        </div>
+                        <div class="form-group col-md-2 col-2 ">
+                          <label>Job Status</label>
+                          <select  class="input-sm form-control" id="job_status">
+                            <option value="" selected >Select</option>
+                            <option value="0">Initiated</option>
+                            <option value="4">Queued</option>
+                            <option value="1">Processing</option>
+                            <option value="2">Completed</option>
+                            <option value="3">Failed</option>
+                          </select>
+                        </div>
+                        <div class="form-group col-md-2 col-2 ">
+                          <label>File Type</label>
+                          <select  class="input-sm form-control" id="file_type">
+                            <option value="" selected >Select</option>
+                            <option value="1">Photogrammetry</option>
+                            <option value="2">LiDAR fusion</option>
+                          </select>
+                        </div>
+                        <div class="form-group col-sm-2 col-2">
+                          <button type="button" name="search" id="search" value="Search" class="btn btn-md btn-primary " style="margin-top: 30px;">Search</button>
+                        </div>
+                      </div>
+                      <!--<div class="input-daterange">
+                         
+                        <div class="form-group col-sm-3 col-3">
+                          <label> To Date</label>
+                          <input type="text" class="form-control input-sm" name="start_date" id="start_date">
+
+                        </div>
+                        <div class="form-group col-md-3 col-3" style="
+                        margin: -95px 22px 0px 260px;">
+                          <label>From Date</label>
+                          <input type="text" class="form-control input-sm" name="end_date" id="end_date">
+
+                        </div>
+                        
+                        <div class="form-group col-md-3 col-3">
+                          <button type="button" name="search" id="search" value="Search" class="btn btn-primary" style="
+                            position: absolute;
+                            left: 573px;
+                            margin: 10px;
+                            top: -51px;
+                        ">Search</button>
+                        </div>
+                      </div>-->
+                      <table id="example" class="table table-striped" width="100%">
+                        <div class="table-responsive">
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>Thumbnail</th>
+                              <th>Name</th>
+                              <th>Collect Name</th>
+                              <th>Collect Date</th>
+                              <th>Status</th>
+                              <th>Priority</th>
+                              <th>Process time</th>
+                              <th>Download</th>
+                              <!--<th>Assets</th>-->
+
+
+                            </tr>
+                          </thead>
+                          <tfoot>
+                            <tr>
+                            </tr>
+                          </tfoot>
+                          <tbody>
+
+                          </tbody>
+
+                        </div>
+
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <script>
+
+            $(document).ready(function () {
+              $('.input-daterange').datepicker({
+                todayBtn: 'linked',
+                format: "yyyy-mm-dd",
+                autoclose: true
+              });
+
+              fetch_data('no');
+             // var job_status = $('#job_status').val();
+             // alert(job_status);
+              function fetch_data(is_date_search, start_date = '', end_date = '',job_status='',file_type='') {
+                //alert(job_status);
+                $('#example').DataTable({
+                  "paging": true,
+                  "aaSorting": [[0, "desc"]],
+                  "pageLength": 10,
+                  "processing": true,
+                  "serverSide": true,
+                  "ajax": {
+                    url: "/web/admin/homedata", type: 'POST', data: {
+                      is_date_search: is_date_search, start_date: start_date, end_date: end_date,job_status:job_status,file_type:file_type
+                    }
+                  },
+                  "columns": [
+                    { "data": "id" },
+                    { "data": "thumbnailImg" },
+                    { "data": "name" },
+                    { "data": "collect_name" },
+                    { "data": "createdAt" },
+                    { "data": "status" },
+                    { "data": "process_priority" },
+                    { "data": "processing_time" },
+                    { "data": "assets" }
+
+                  ]
+                });
+              }
+              var table = $('#example').DataTable();
+              $('#example tbody').off('click');
+              $('#example tbody').on('click', 'tr', function () {
+                var data = table.row(this).data();
+                window.location = "/web/admin/collectdetail/" + data.id;
+                var id = data.id
+                //console.dir("table click" + data.id);
+              });
+
+              
+            
+
+              $('#search').click(function () {
+                ($('#startDate').val());
+                var start_date = $('#start_date').val();
+                var end_date = $('#end_date').val();
+                var start_date1 = new Date($('#start_date').val());
+                var end_date1 = new Date($('#end_date').val());
+                var job_status=$('#job_status').val();
+                var file_type=$('#file_type').val();
+                
+              //   $('#job_status select').off('click');
+              // $('#job_status select').on('click', 'option', function () {
+              //   var data = table.row(this).data();
+              //   window.location = "/web/admin/collectdetail/" + data.id;
+              //   var id = data.id
+              //   //console.dir("table click" + data.id);
+              // });
+
+                if (start_date != '' && end_date != '') {
+                  
+                  $('#example').DataTable().destroy();
+                  fetch_data('yes', start_date, end_date,job_status,file_type);
+
+                }
+                
+                else if(start_date != '' && end_date == '') {
+                  alert("Both Date is Required");
+                }
+                else if(end_date != '' && start_date == '') {
+                  alert("Both Date is Required");
+                }
+                else if(job_status!='' || file_type!='')
+                {
+                  $('#example').DataTable().destroy();
+                  fetch_data('no', start_date=null, end_date=null,job_status,file_type);
+                }
+                if (start_date1 >= end_date1) {
+                  //alert(start);
+                 // alert('greaterr');
+                  $('#example').DataTable().destroy();
+                  fetch_data('yes', start_date1, end_date1,job_status,file_type);
+
+                }
+
+              });
+            });
+
+
+          </script>
+        </body>
+      </section>
+      </body>
+      </section>
+    </div>
+
+    <%- include ("footer") %>
+      <style>
+        table.dataTable {
+          border-bottom: 1px solid #ddd !important;
+        }
+      </style>

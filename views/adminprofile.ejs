@@ -1,0 +1,166 @@
+<%- include ("header") %>
+<%- include ("sidebar") %>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+</head>
+
+<div class="main-content">
+        <section class="section">
+          <div class="section-header">
+            <h1>Profile</h1>
+            <div class="section-header-breadcrumb">
+              <div class="breadcrumb-item active"><a href="/web/admin/dashboard">Dashboard</a></div>
+              <div class="breadcrumb-item">Profile</div>
+            </div>
+          </div>
+          <div class="section-body">
+            
+
+            <div class="row mt-sm-4">
+              
+              <div class="col-12 col-md-12 col-lg-12">
+                <div class="card">
+                  <form method="post" id="profileform" action="/web/admin/reset-password" class="needs-validation" novalidate="">
+                   
+                  </div>
+                        <div class="row">
+                          <div class="form-group col-md-6 col-6">
+                            <label>Name</label>
+                            <input type="text" id="name" name="name" class="form-control" value="" required="" >
+                            
+                          </div>
+                          <div class="form-group col-md-6 col-6">
+                            <label> Email</label>
+                            <input type="text" id="old_password" name="old_password" class="form-control" value="" required="" >
+                            </div>
+                          
+                        </div>
+            
+                        <div class="row">
+                          <div class="form-group col-md-6 col-6">
+                            <label> old password</label>
+                            <input type="text" id="old_password" name="old_password" class="form-control" value="" required="" >
+                            
+                          </div>
+                          <div class="form-group col-md-6 col-6">
+                            <label>New password</label>
+                            <input type="text" id="password" name="password" class="form-control" value="" required="" >
+                            
+                          </div>
+                          
+                          
+                        </div>
+                        <div class="row">
+                          
+                          <div class="form-group col-md-6 col-6">
+                            <label>confirm password</label>
+                            <input type="text"  id="cpassword" name="cpassword" class="form-control" value="" required="" >
+                            
+                          </div>
+                          
+                          
+                        </div>
+                         
+                             </div>
+                      
+                       <div class="card-footer text-right">
+                     <button type="button" onclick="history.go(-1)" class="btn btn-primary">Back</button>
+                     <button type="button" id="login" class="btn btn-primary">Upadte </button>
+                    </div> 
+                    </div>
+                    
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      
+      <body>
+        <script type="text/javascript">
+          $(document).ready(function () {
+          $("#login").click(function (){
+                
+            if($("#old_password").val() =="" ){
+              Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Please enter old password !!',
+              })
+            return false;
+            }
+           
+            if($("#password").val()==""){
+              Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Please enter new password !!',
+              })
+            return false;
+            }
+
+            if($("#password").val() !="" && ($("#password").val()!=$("#cpassword").val())){
+              Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'wrong confirm password !!',
+              })
+            return false;
+            }
+            Swal.fire({
+  title: 'Do you want to save the changes?',
+  showDenyButton: false,
+  showCancelButton: true,
+  confirmButtonText: 'Save',
+  denyButtonText: `Don't save`,
+}).then((result) => {
+  /* Read more about isConfirmed, isDenied below */
+  if (result.isConfirmed) {
+//    $("#profileform").submit();
+ var reqData ={
+    "email": $("#id").val(),
+    "old_password": $("#old_password").val(),
+    "password": $("#password").val(),
+    "name": $("#name").val(),
+   
+};
+
+  var url="/web/admin/reset-password";
+$.post(url, reqData)
+  .done(function( data ) {
+    if(data.status){   
+      Swal.fire({
+              icon: 'success',
+              title: '',
+              text: data.message,
+      });
+     
+    }
+    else{
+      Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: data.message,
+      });
+    }
+    window.location.href = "logout";
+  });
+  
+    //Swal.fire('Saved!', '', 'success')
+  } else if (result.isDenied) {
+    Swal.fire('Changes are not saved', '', 'info')
+  }
+ 
+});
+
+          });        
+          });
+
+   
+        </script>
+      </body>
+
+
+<%- include ("footer") %>

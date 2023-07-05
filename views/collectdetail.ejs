@@ -1,0 +1,739 @@
+<%- include ("header") %>
+  <%- include ("sidebar") %>
+  
+    <head>
+      <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+      <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+      <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    </head>
+
+    <div class="main-content">
+      <section class="section">
+        <div class="section-header">
+          <h1>Collect Details</h1>
+          <div class="section-header-breadcrumb">
+            <div class="breadcrumb-item active"><a href="/web/admin/dashboard">Dashboard</a></div>
+            <div class="breadcrumb-item">Collect Details</div>
+          </div>
+        </div>
+        <div class="section-body">
+          <div class="invoice">
+            <div class="invoice-print">
+              <div class="row">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-12 ">
+                      <div class="panel panel-default">
+                        <div class="panel-heading">
+                          <h4>Collect Details</h4>
+                        </div>
+
+                        <div class="panel-body">
+                          <% for(var i=0; i < data.length; i++) { console.log(data); %>
+                            <input type="hidden" id="email" name="email" value="<%= data[i].initiate_id%>" />
+                            <input type="hidden" id="initiateid" name="initiateid" value="<%= data[i].initiate_id%>" />
+                            <input type="hidden" id="collect_status"  value="<%= collect_status %>" />
+                            <input type="hidden" id="asset_url"  value="<%= assetsurl %>" />
+                            <input type="hidden" id="object_url"  value="<%= data[i].s3_3d_url %>" />
+                            <input type="hidden" id="fileExt"  value="<%= fileExt %>" />
+                            <input type="hidden" id="fileType"  value="<%= fileType %>" />
+                            <div class="box box-info">
+                              <div class="box-body">
+                                <div class="clearfix"></div>
+                                <hr style="margin:5px 0 5px 0;">
+
+
+                                <div class="col-sm-5 col-xs-6 tital " style="color: black;">Collect Id:</div>
+                                <div class="col-sm-7 col-xs-6 ">
+                                  <%= data[i].ep_collect_id %>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="bot-border"></div>
+                                <div class="bot-border"></div>
+
+                                <div class="col-sm-5 col-xs-6 tital " style="color: black;">Initiate Id:</div>
+                                <div class="col-sm-7">
+                                  <%= data[i].initiate_id%>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="bot-border"></div>
+                                <div class="bot-border"></div>
+                                <div class="col-sm-5 col-xs-6 tital " style="color: black;">Collect Name:</div>
+                                <div class="col-sm-7">
+                                  <%= data[i].collect_name%>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="bot-border"></div>
+                                <div class="bot-border"></div>
+                                <div class="col-sm-5 col-xs-6 tital " style="color: black;">Collect Type:</div>
+                                <div class="col-sm-7">
+                                  <%= collect_type%>
+                                </div>
+                                
+                                <div class="clearfix"></div>
+                                <div class="bot-border"></div>
+                                <div class="clearfix"></div>
+                                <div class="bot-border"></div>
+                                <div class="col-sm-5 col-xs-6 tital " style="color: black;">Add Date:</div>
+                                <div class="col-sm-7">
+                                  <%= addData%>
+                                </div>
+                                
+                                <div class="clearfix"></div>
+                                <div class="bot-border"></div>
+                                <div class="clearfix"></div>
+                                <div class="bot-border"></div>
+                                  
+                                  <div class="col-sm-5 col-xs-6 tital " style="color: black;">3D Asset:</div>
+                                
+                                  <div class="col-sm-7">
+                                    <div id="assetsU">
+                                     <%if (assetsurl) { %>
+                                        <img alt="image" src="/images/loading.gif" height="100px;" id="asLoader" class="rounded-circle mr-1" style="display:none;">
+                                      <a href="<%= assetsurl%>" id="assetsUrl" class="btn btn-dark" download style="">download</a>
+                                     <% } else { %>
+                                      <img alt="image" src="/images/loading.gif" height="100px;" id="asLoader" class="rounded-circle mr-1" >
+                                      <a href="" id="assetsUrl" class="btn btn-dark" download style="display:none;">download</a>
+                                     <% } %>
+                                     
+                                    </div>
+                                    
+                                    <!--<button type="submit" id="assets" class="btn btn-primary">Download</button>-->
+                                    
+                                  </div>
+                                  <div class="clearfix"></div>
+                                  <div class="bot-border"></div>
+                                  <div class="clearfix"></div>
+                                  <div class="bot-border"></div>
+                                  <div class="col-sm-5 col-xs-6 tital " style="color: black;">3D Object:</div>
+                                
+                                  <div class="col-sm-7">
+                                    <%if (collect_status=='Completed' && threeDurl!='') {
+                                      
+                                      %>
+                                     <!-- <img alt="image" src="/images/loading.gif" height="100px;" id="obLoader" class="rounded-circle mr-1">-->
+                                      <a href="<%= threeDurl[0] %>" id="objectsUrl" class="btn btn-dark" >Download(<%= threeDurl[0].split('/').pop() %>)</a>
+                                     
+                                    <% } else { %>
+                                      <%= collect_status %>
+                                    <% } %>
+                                    
+                                  </div>
+
+                                  <div class="clearfix"></div>
+                                  <div class="bot-border"></div>
+                                  <div class="clearfix"></div>
+                                  <div class="bot-border"></div>
+                                  <%if (fileExt=='eparls' || fileExt=='epars') { %>
+                                  <div class="col-sm-5 col-xs-6 tital " style="color: black;">Uploaded Video:</div>
+                                
+                                  <div class="col-sm-7">
+                                    <%if (uploadVideo) {
+                                      
+                                      %>
+                                     <!-- <img alt="image" src="/images/loading.gif" height="100px;" id="obLoader" class="rounded-circle mr-1">-->
+                                      <!--<a href="data:video/mp4,<%= uploadVideo %>" id="assetsUrl11" class="btn btn-dark" download="<%= data[i].collect_name%>" target="_blank">download</a>-->
+
+                                      <a href="http://54.236.108.107:8080/eparls/output/<%= data[i].initiate_id %>/arkit_video.mp4" id="assetsUrl11" class="btn btn-dark" download="<%= data[i].collect_name%>" target="_blank">Download </a>
+
+                                      
+                                     
+                                    <% } else { %>
+                                     
+                                    <% } %>
+                                    
+                                  </div>
+                                  <% } %>
+
+
+                                  <div class="clearfix"></div>
+                                  <div class="bot-border"></div>
+                                  <div class="clearfix"></div>
+                                  <div class="bot-border"></div>
+                                  <div class="col-sm-5 col-xs-6 tital " style="color: black;"></div>
+                                
+                                  <div class="col-sm-7">
+                                    <%if (thumbnailImg) {
+                                      
+                                      %>
+                                     <img alt="image" src="<%= thumbnailImg %>" height="100px;" id="" class="img-thumbnail" style="max-width: 25%">
+                                      
+                                    <% } else { %>
+                                     
+                                    <% } %>
+                                    
+                                  </div>
+
+                                  <div class="clearfix"></div>
+
+                                  <div class="bot-border"></div>
+                                  <div class="clearfix"></div>
+                                  <div class="bot-border"></div>
+
+
+                                  
+                                  
+                              </div>
+                              <div class="card-footer text-right">
+                                <button type="submit" id="deletecoll" class="btn btn-primary">Delete</button>
+                                
+                                
+                                  <button type="submit" id="login" class="btn btn-primary">Reupload</button>
+                                  
+                                    <%if (data[i].internal_status==2){%>
+                                      <button type="submit" id="reminder" class="btn btn-primary">Reminder</button>
+                                      <%}%>
+                                      <button type="button" onclick="history.go(-1)" class="btn btn-primary">Back</button>
+                              </div>
+                            </div>
+                            
+                            <% }%>
+                        </div>
+                      </div>
+                      <div class="panel panel-default">
+                        <div class="panel-heading">
+                          <h4>Scan setting history</h4>
+                        </div>
+                        <% for(var i=0; i < priorityHistory.length; i++) { console.log('tttttttt',priorityHistory); 
+                        
+                        
+                        %>
+                        <div class="clearfix" style="background-color: #03b1ce;"></div>
+                                <div class="bot-border"></div>
+                                <div class="bot-border"></div>
+                                <div class="col-sm-6 " style="padding: 5px">
+                                  Target distance in meter : <%= JSON.parse(priorityHistory[i].payload).scanSetting.target_distance_in_meters; %>
+                                </div>
+                                <div class="col-sm-6 " style="padding: 5px">
+                                  Depth map dimention: <%= JSON.parse(priorityHistory[i].payload).scanSetting.depth_map_dimension; %>
+                                </div>
+                                <div class="col-sm-6 " style="padding: 5px">
+                                  Point Space in meter: <% var n= JSON.parse(priorityHistory[i].payload).scanSetting.point_spacing_in_meters; %>  <%= n.toFixed(3) %>
+                                </div>
+                                <div class="col-sm-6 " style="padding: 5px">
+                                  Ignore failed target detection: <%= JSON.parse(priorityHistory[i].payload).scanSetting.ignore_failed_target_detection; %>
+                                </div>
+                                <div class="col-sm-6 " style="padding: 5px">
+                                  Point Density: <%= JSON.parse(priorityHistory[i].payload).scanSetting.point_density; %>
+                                </div>
+                                <div class="col-sm-6 " style="padding: 5px">
+                                  Depth map maximum depth: <%= JSON.parse(priorityHistory[i].payload).scanSetting.depth_map_maximum_depth; %>
+                                </div>
+                                <div class="col-sm-6 " style="padding: 5px">
+                                  Priority : <%= JSON.parse(priorityHistory[i].process_priority); %>
+                                </div>
+                                <div class="col-sm-6 " style="padding: 5px">
+                                  Process : <%if (priorityHistory[i].reprocess==0){%><span class="badge badge-info">Process by user</span><% } else { %> <span class="badge badge-warning">Reprocess by admin</span> <%} %> 
+                                </div>
+                                <div class="col-sm-6 " style="padding: 5px">
+                                  Processing Date : <%=  moment(priorityHistory[i].createdAt).format('Do MMMM, YYYY h:mm:ss'); %>
+                                </div>
+                                <div class="col-sm-6 " style="padding: 5px">
+                                  Complete Date  : <% if(priorityHistory[i].complete_date) { %> <%=  moment(priorityHistory[i].complete_date).format('Do MMMM, YYYY h:mm:ss'); %> <% } %> 
+                                </div>
+                               
+
+
+                                
+                                <div class="clearfix"></div>
+
+                                <div class="bot-border"></div>
+                                <div class="clearfix"></div>
+                                <div class="bot-border"></div>
+                        <% } %>
+                       
+                        <!-- /input-group -->
+                      </div>
+                      <!-- setings -->
+                      <div class="panel panel-default">
+                        <div class="panel-heading">
+                          <h4>Scan Settings</h4>
+                        </div>
+
+                        <!-- /input-group -->
+                      </div>
+                      <!-- <input type="hidden" id="scan_density" name="id" value="scan_density" />
+                      <input type="hidden" id="depth" name="id" value="depth" />
+                      <input type="hidden" id="target" name="id" value="target" /> -->
+                      <input type="hidden" id="fusion" value="<%= fusion %>">
+                      <% if(collect_status=='Completed' || collect_status=='Failed') { %>
+                      <div class="clearfix"></div>
+                      <div class="bot-border"></div>
+                      <% if(fusion=='Lidar') { %>
+                      <div class="col-sm-5 col-xs-6 tital" id="scan_density">Scan Density (MM)</div>
+                      <div class="col-sm-7">
+
+
+                        <form oninput="result.value = depthSlider.value">
+                          <input type="range" id="depthSlider" min="1" max="30" value="<%= point_spacing_in_meters %>" style="width: 295px;">
+
+                          <output name="result" for="slider"><%= point_spacing_in_meters %></output> 
+                        </form>
+
+                        <!-- <input type="range" name="length" class="slider" min="1" max="30" value="1" style="width: 295px;">
+                          <span  class="slider_label"></span></p> -->
+                      </div>
+                      <% } %>
+                      <div class="clearfix"></div>
+                      <div class="bot-border"></div>
+                      <% if(fusion=='Lidar') { %>
+                      <div class="col-sm-5 col-xs-6 tital" id="depth">Depth of Reconstruction (M)</div>
+                      <div class="col-sm-7">
+                       
+                        <form oninput="result.value = slider.value">
+                          <input type="range" id="slider" min="1" max="30" value="<%= target_distance_in_meters %>" style="width: 295px;">
+                          <input type="hidden" id="point_density" value="">
+
+                          <output name="result" for="slider"><%= target_distance_in_meters %></output> 
+                        </form>
+                         
+                        <!-- <input type="range" name="length" class="slider" min="1" max="30" value="1" style="width: 295px;">
+                          <span  class="slider_label"></span></p> -->
+                      </div>
+                      <% } else { %>
+                        <div class="col-sm-5 col-xs-6 tital" id="depth">Point Cloud Density </div>
+                        <div class="col-sm-7">
+                        
+                          <form oninput="result.value = point_density.value">
+                            <input type="hidden" id="slider" min="1" max="30" value="" >
+
+                            <input type="range" id="point_density" min="500" max="3000" value="<%= point_density %>" style="width: 295px;">
+
+                            <output name="result" for="slider"><%= point_density %></output>
+                          </form>
+                          
+                          <!-- <input type="range" name="length" class="slider" min="1" max="30" value="1" style="width: 295px;">
+                            <span  class="slider_label"></span></p> -->
+                        </div>
+                      <% } %> 
+
+                      <div class="clearfix"></div>
+                      <div class="bot-border"></div>
+
+                      <div class="col-sm-5 col-xs-6 tital" id="target">Target Detection (M)</div>
+                      <div class="col-sm-7">
+
+                        <input type="text" class="form-control" value="<%= depth_map_maximum_depth %>"  name="targetname" id="TargetDetect">
+                      </div>
+                      <div class="clearfix"></div>
+                      <div class="bot-border"></div>
+
+                      <div class="card-footer text-right">
+                        <button type="submit" id="submit" class="btn btn-primary">Submit</button>
+                      </div>
+                      <% } %>
+                    </div>
+                  </div>
+
+                  
+
+                  <!-- /.box-body -->
+                      <!--<div class="panel panel-default">
+                        <div class="panel-heading">
+                          <h4>Upload Reels</h4>
+                        </div>
+
+                        <div class="panel-body">
+                          <% for(var i=0; i < data.length; i++) { console.log(data); %>
+                          <form method="post" id="profileform" action="/web/admin/filesUpload" class="needs-validation"
+                            novalidate="">  
+                            <input type="hidden" id="user_id" name="user_id" value="<%= data[i].id%>" />
+                            <input type="hidden" id="upload_initiate" name="upload_initiate" value="<%= data[i].initiate_id%>" />
+                            <div class="box box-info">
+                              <div class="box-body">
+                                <div class="clearfix"></div>
+                                <hr style="margin:5px 0 5px 0;">
+
+
+                                <div class="col-sm-5 col-xs-6 tital " style="color: black;">Title:</div>
+                                <div class="col-sm-7 col-xs-6 ">
+                                  <input type="text" id="title" class="form-control" name="title" value="" />
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="bot-border"></div>
+                                <div class="bot-border"></div>
+                                
+                                <div class="col-sm-5 col-xs-6 tital " style="color: black;">Description:</div>
+                                <div class="col-sm-7">
+                                  <textarea class="form-control" id="description" name="description" placeholder="Type here.."></textarea>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="bot-border"></div>
+                                <div class="bot-border"></div>
+                                <div class="col-sm-5 col-xs-6 tital " style="color: black;">File Upload:</div>
+                                <div class="col-sm-7">
+                                  <input class="form-control" type="file" id="3dfile" name="file" value="" />
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="bot-border"></div>
+                                <div class="bot-border"></div>
+                                 
+                              </div>
+                              <div class="card-footer text-right">
+                                <input type="button" class="btn btn-warning" value="Upload" id="but_upload">
+                              </div>
+                            </div>
+                          </form>
+                            <% }%>
+                        </div>
+                      </div>-->
+                    </div>
+                    <script>
+                      $(function () {
+                        $('#profile-image1').on('click', function () {
+                          $('#profile-image-upload').click();
+                        });
+                      }); 
+                     
+                      
+
+                    </script>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    </section>
+    </div>
+    <script type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/sweetalert2@11.3.2/dist/sweetalert2.all.min.js"></script>
+    <script type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/sweetalert2@11.3.2/dist/sweetalert2.all.min.js"></script>
+
+    <body>
+      <script type="text/javascript">
+       
+
+        $(document).ready(function () {
+          $("#submit").click(function () {
+            // alert($("#slider").val());
+            // alert($("#depthSlider").val());
+
+            Swal.fire({
+              title: 'Do you want to reprocess job?',
+              showDenyButton: false,
+              showCancelButton: true,
+              confirmButtonText: 'Submit',
+              denyButtonText: `Don't Submit`,
+            }).then((result) => {
+              if (result.isConfirmed) {
+                
+                var url = "/web/admin/settings/";
+                $.post(url,
+                  {
+                    scan_density: $("#depthSlider").val(),
+                    depth: $("#slider").val(),
+                    target: $("#TargetDetect").val(),
+                    point_density: $("#point_density").val(),
+                    initiate_id:$("#initiateid").val()
+                  }
+                )
+                  .done(function (data) {
+                    //var data=JSON.parse(data)
+                    if (data.code='200') {
+                      Swal.fire({
+                        icon: 'success',
+                        title: '',
+                        text: data.message,
+                      });
+                      setTimeout(function () {
+                        
+                      }, 3000);
+
+                    }
+                    else {
+                      Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: data.message,
+                      });
+                    }
+
+                  });
+              } else if (result.isDenied) {
+                Swal.fire('Changes are not Submitted', '', 'info')
+              }
+
+            });
+
+          });
+
+
+
+          $("#but_upload").click(function () {
+            Swal.fire({
+              title: 'Do you want to save file ?',
+              showDenyButton: false,
+              showCancelButton: true,
+              confirmButtonText: 'Yes',
+              denyButtonText: `Don't save`,
+            }).then((result) => {
+              var form = new FormData();
+              var user_id=$('#user_id').val();
+              var initiate_id=$('#upload_initiate').val();
+              var title=$('#title').val();
+              var description=$('#description').val();
+              form.append("file", $('#3dfile')[0].files[0]);
+              console.log(initiate_id);
+              //var file = $('#3dfile')[0].files[0];
+
+              form.append("user_id", user_id);
+              form.append("initiateId", initiate_id);
+              form.append("title", title);
+              form.append("description", description);
+              var url = '/web/admin/filesUpload';
+              var settings = {
+                "url": url,
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                  "Cookie": "connect.sid=s%3Ax48XCy8YXaxesRr23vxFkg-oPSH1RvnV.zpo6nFgeKDaPYnR8Zl%2FDrYaC963FHisVfrE0OQf3uYk"
+                },
+                "processData": false,
+                "mimeType": "multipart/form-data",
+                "contentType": false,
+                "data": form
+              };
+
+              $.ajax(settings).done(function (response) {
+                console.log(response);
+              });
+            });
+          });
+
+
+
+
+
+          $("#login").click(function () {
+            Swal.fire({
+              title: 'Do you want to send  the email ?',
+              showDenyButton: false,
+              showCancelButton: true,
+              confirmButtonText: 'Yes',
+              denyButtonText: `Don't save`,
+            }).then((result) => {
+
+              /* Read more about isConfirmed, isDenied below */
+              if (result.isConfirmed) {
+
+                var email = $("#email").val();
+                var url = "/sendemail/" + email;
+                $.get(url)
+                  .done(function (data) {
+                    if (data.message) {
+                      Swal.fire({
+                        icon: 'success',
+                        title: '',
+                        text: data.message,
+
+                      });
+
+
+                    }
+                    else {
+                      Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: data.message,
+                      });
+                    }
+
+                  });
+
+                //Swal.fire('Saved!', '', 'success')
+              } else if (result.isDenied) {
+                Swal.fire('Changes are not saved', '', 'info')
+              }
+
+            });
+
+          });
+          $("#reminder").click(function () {
+            Swal.fire({
+              title: 'Do you want to send  the email ?',
+              showDenyButton: false,
+              showCancelButton: true,
+              confirmButtonText: 'Yes',
+              denyButtonText: `Don't save`,
+            }).then((result) => {
+
+              /* Read more about isConfirmed, isDenied below */
+              if (result.isConfirmed) {
+
+                var email = $("#email").val();
+                var url = "/reminderemail/" + email;
+                $.get(url)
+                  .done(function (data) {
+                    if (data.message) {
+                      Swal.fire({
+                        icon: 'success',
+                        title: '',
+                        text: data.message,
+
+                      });
+
+
+                    }
+                    else {
+                      Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: data.message,
+                      });
+                    }
+
+                  });
+
+                //Swal.fire('Saved!', '', 'success')
+              } else if (result.isDenied) {
+                Swal.fire('Changes are not saved', '', 'info')
+              }
+
+            });
+
+          });
+
+         
+            
+
+                
+
+                //Swal.fire('Saved!', '', 'success')
+              
+         
+
+
+          $("#deletecoll").click(function () {
+            console.log('hello');
+            Swal.fire({
+              title: 'Do you want to delete the collects?',
+              showDenyButton: false,
+              showCancelButton: true,
+              confirmButtonText: 'Yes',
+              denyButtonText: `Don't save`,
+            }).then((result) => {
+
+              /* Read more about isConfirmed, isDenied below */
+              if (result.isConfirmed) {
+                var initiateid = $("#initiateid").val();
+                var url = "/deleteObject/" + initiateid;
+
+                $.post(url)
+                  .done(function (data) {
+                    if (data.message) {
+                      Swal.fire({
+                        icon: 'success',
+                        title: '',
+                        text: data.message,
+
+                      });
+                      setTimeout(function () {
+                        window.location = "/dashboard";
+                      }, 3000);
+                    }
+                    else {
+                      Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: data.message,
+                      });
+                    }
+
+                  });
+
+                //Swal.fire('Saved!', '', 'success')
+              } else if (result.isDenied) {
+                Swal.fire('Changes are not saved', '', 'info')
+              }
+
+            });
+
+          });
+        
+              //setTimeout(loadajax,10000);
+              /*if($("#asset_url").val()=='' && ($("#fileExt").val()!='eparls' || $("#fileExt").val()!='epars'))
+                {
+                  var initiateid = $("#initiateid").val();
+                  var url = "/api/v1/downloadAssets?userId=1&initiateId="+initiateid;
+                  $.ajax({ url: url,
+                      context: document.body,
+                      success: function(response){
+                      if(response.code==200)
+                      {
+                        setTimeout(function () {
+                          var path=response.data.path;
+                        //$("#assetsU").html(path);
+                          $("#assetsUrl").attr("href", path);
+                          $("#assetsUrl").show();
+                          $("#asLoader").hide();
+                        }, 20000);
+                        
+                      }
+                      }
+                  });
+                }*/
+               
+                /*if($("#asset_url").val()!='' && $("#collect_status").val()=='Completed')
+                {
+                var initiateid = $("#initiateid").val();
+                var url = "https://api.recon-3d.com/v1/download3DObjects?userId=106&initiateId="+initiateid;
+                $.ajax({ url: url,
+                    context: document.body,
+                    success: function(response){
+                      if(response.code==200)
+                    {
+                      var path=response.data;
+                      console.log(path);
+                      //$("#assetsU").html(path);
+                      $("#objectsUrl").attr("href", path);
+                      $("#objectsUrl").show();
+                      $("#obLoader").hide();
+                    }
+                    }
+                });
+                }*/
+                
+                
+          
+        });
+
+        
+        
+
+
+
+
+      </script>
+    </body>
+    <style>
+      input.hidden {
+        position: absolute;
+        left: -9999px;
+      }
+
+      #profile-image1 {
+        cursor: pointer;
+
+        width: 100px;
+        height: 100px;
+        border: 2px solid #03b1ce;
+      }
+
+      .tital {
+        font-size: 16px;
+        font-weight: 500;
+      }
+
+      .bot-border {
+        border-bottom: 1px #f8f8f8 solid;
+        margin: 5px 0 5px 0
+      }
+    </style>
+    <%- include ("footer") %>

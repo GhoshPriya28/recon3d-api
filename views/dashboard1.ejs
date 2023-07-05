@@ -1,0 +1,116 @@
+<%- include ("header") %>
+  <%- include ("sidebar") %>
+
+
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+    <script src="/javascripts/stislas.js"></script>
+    <script src="/javascripts/scriptsdata.js"></script>
+
+    <div class="main-content">
+      <section class="section">
+        <div class="section-header">
+          <h1>Collect List</h1>
+
+          <div class="section-header-breadcrumb">
+            <div class="breadcrumb-item active"><a href="/web/admin/dashboard">Dashboard</a></div>
+            <div class="breadcrumb-item">Collect List</div>
+          </div>
+        </div>
+
+         <body>
+          <div class="section-body">
+            <div class="row mt-4">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="clearfix mb-3"></div>
+                    <div class="container">
+                      <table id="example" class="table table-striped" width="100%">
+                        <div class="table-responsive">
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>Name</th>
+                              <th>Email</th>
+                              <th>Collect Id</th>
+                              <th>Collect Date</th>
+                              <th>Status</th>
+                              <th>Action</th>
+                              <!--<th>Assets</th>-->
+                             
+                            
+                            </tr>
+                          </thead>
+                          <tfoot>
+                            <tr>
+                            </tr>
+                          </tfoot>
+                          <tbody>
+
+                          </tbody>
+
+                        </div>
+
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <script>
+
+            $(document).ready(function () {
+
+
+
+              $('#example').DataTable({
+                "paging": true,
+                "pageLength": 10,
+                "processing": true,
+                "serverSide": true,
+                "ajax": { url: "/web/admin/homedata", type: 'POST' },
+                "columns": [
+                  { "data": "id" },
+                  { "data": "name" },
+                  { "data": "email" },
+                  { "data": "ep_collect_id" },
+                  { "data": "createdAt" },
+                  { "data": "status" },
+                  { "data": "assets" },
+                 
+                ]
+              });
+
+            });
+
+$(document).ready(function() {
+    $("#example").dataTable({
+        aaSorting: [[2, 'asc']],
+        bPaginate: false,
+        bFilter: false,
+        bInfo: false,
+        bSortable: true,
+        bRetrieve: true,
+        aoColumnDefs: [
+            { "aTargets": [ 0 ], "bSortable": true },
+            { "aTargets": [ 1 ], "bSortable": true },
+            { "aTargets": [ 2 ], "bSortable": true },
+            { "aTargets": [ 3 ], "bSortable": false }
+        ]
+    }); 
+});
+            
+          </script>
+        </body>
+      </section>
+      </body>
+      </section>
+    </div>
+
+    <%- include ("footer") %>
+      <style>
+        table.dataTable {
+          border-bottom: 1px solid #ddd !important;
+        }
+      </style>
