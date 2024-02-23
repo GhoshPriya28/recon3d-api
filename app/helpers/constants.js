@@ -1,10 +1,10 @@
 exports.constants = {
 	admin: {
-		name: "admin",
-		email: "admin@admin.com"
+		name: "",
+		email: ""
 	},
 	confirmEmails: {
-		from : "testseller30@gmail.com"
+		from : ""
 	},
 	path:{
 		documentsSavePath:"uploads/documents",
