@@ -1,14 +1,14 @@
 const http = require("https");
 
 const options = {
-	"method": "POST",
-	"hostname": "smsapi-com3.p.rapidapi.com",
-	"port": null,
-	"path": "/sms.do?access_token=undefined",
+	"method": "",
+	"hostname": "",
+	"port": ,
+	"path": "",
 	"headers": {
-		"x-rapidapi-host": "smsapi-com3.p.rapidapi.com",
-		"x-rapidapi-key": "fa40a27b61msh113fd5fa1eaa3a4p1851f9jsnbe60ab93e4fa",
-		"useQueryString": true
+		"x-rapidapi-host": "",
+		"x-rapidapi-key": "",
+		"useQueryString": 
 	}
 };
 
