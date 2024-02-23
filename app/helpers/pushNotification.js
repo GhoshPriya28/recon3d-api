@@ -12,7 +12,7 @@ exports.sentNotificationSingle = function(recaver_id=null,title=null,dataO=null)
 {
     var serverKey =FCM_KEY; //put your server key here
     var fcm = new FCM(serverKey);
-    //var send_id='dGyFL8mTCk_mhmPOu8unp0:APA91bF2alXfn3PNkyipitoRcd4s3pvRr6groMb2eDyegJNfX6noLCfuyz7WVXqWD8vP5XvCs-FVu-ny7pj8WbvyiaEkKXC6wZ-aD8DAWwzIvHSJ14W5UBxHYf_gBBP-DIsf2qRRZYmX';
+    
      var send_id=recaver_id;     
     var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
         to: send_id.trim(), 
